@@ -10,13 +10,21 @@ export type Scalars = {
 }
 
 export interface Article {
+    comments: Comment[]
     id: Scalars['ID']
     title: Scalars['String']
     url: Scalars['String']
     __typename: 'Article'
 }
 
+export interface Comment {
+    id: Scalars['ID']
+    text: Scalars['String']
+    __typename: 'Comment'
+}
+
 export interface Mutation {
+    addComment: Comment
     createArticle: Article
     __typename: 'Mutation'
 }
@@ -28,6 +36,7 @@ export interface Query {
 }
 
 export interface ArticleGenqlSelection{
+    comments?: CommentGenqlSelection
     id?: boolean | number
     title?: boolean | number
     url?: boolean | number
@@ -35,7 +44,15 @@ export interface ArticleGenqlSelection{
     __scalar?: boolean | number
 }
 
+export interface CommentGenqlSelection{
+    id?: boolean | number
+    text?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
 export interface MutationGenqlSelection{
+    addComment?: (CommentGenqlSelection & { __args: {articleID: Scalars['String'], text: Scalars['String']} })
     createArticle?: (ArticleGenqlSelection & { __args: {title: Scalars['String'], url: Scalars['String']} })
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -53,6 +70,14 @@ export interface QueryGenqlSelection{
     export const isArticle = (obj?: { __typename?: any } | null): obj is Article => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isArticle"')
       return Article_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const Comment_possibleTypes: string[] = ['Comment']
+    export const isComment = (obj?: { __typename?: any } | null): obj is Comment => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isComment"')
+      return Comment_possibleTypes.includes(obj.__typename)
     }
     
 

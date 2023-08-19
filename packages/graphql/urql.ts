@@ -1,3 +1,10 @@
+// @ts-nocheck
+import type {
+  QueryGenqlSelection,
+  Query,
+  MutationGenqlSelection,
+  Mutation,
+} from './schema';
 import {
   useQuery,
   useClient,
@@ -7,23 +14,20 @@ import {
   OperationResult,
   UseMutationState,
   OperationContext,
-  defaultExchanges,
   UseMutationResponse,
 } from "urql";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import {
   QueryResult,
-  QueryRequest,
   MutationResult,
-  MutationRequest,
   generateQueryOp,
   generateMutationOp,
 } from "./genql";
 
 import { pipe, toPromise } from "wonka";
 
-export function useTypedQuery<Query extends QueryRequest>(opts: {
+export function useTypedQuery<Query>(opts: {
   query: Query;
   pause?: boolean;
   requestPolicy?: RequestPolicy;
@@ -48,7 +52,7 @@ const initialState = {
 
 export function useTypedMutation<
   Variables extends Record<string, any>,
-  Mutation extends MutationRequest,
+  Mutation,
   Data extends MutationResult<Mutation>
 >(
   builder: (vars: Variables) => Mutation,
